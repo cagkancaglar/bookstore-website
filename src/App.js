@@ -1,6 +1,7 @@
 // import Login from "./components/Login"
 // import Register from "./components/Register"
 import Navbar from "./components/Navbar"
+import Home from "./components/Home"
 
 function App() {
 
@@ -9,6 +10,7 @@ function App() {
       {/* <Login /> */}
       {/* <Register /> */}
       <Navbar />
+      <Home />
     </>
   );
 }
