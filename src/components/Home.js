@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import categoryData from "../mock/categories.json";
+import productsData from "../mock/products.json";
 
 const Home = () => {
-  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    setCategories(categoryData);
+    setProducts(productsData);
   }, []);
 
   const settings = {
@@ -57,8 +57,8 @@ const Home = () => {
         </div>
 
         <div className="grid grid-cols-4 gap-x-7">
-          {categories &&
-            categories.map((category, index) => (
+          {products &&
+            products.map((product, index) => (
               <div
                 key={index}
                 className="flex w-[320px] h-[200px] bg-formInputBackground rounded-md"
@@ -73,15 +73,15 @@ const Home = () => {
                 <div className="flex flex-col justify-between h-[180px] ml-5">
                   <div className="card-header mt-5">
                     <h5 className="text-formText font-semibold">
-                      {category.title}
+                      {product.title}
                     </h5>
                     <span className="text-sm font-semibold opacity-60">
-                      {category.author}
+                      {product.author}
                     </span>
                   </div>
                   <div className="card-price">
                     <span className="font-semibold text-formRegister text-lg">
-                      {category.price}
+                      {product.price}
                     </span>
                   </div>
                 </div>

@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import categoryData from "../mock/categories.json";
+import productsData from "../mock/products.json";
 
 
 const Categories = () => {
 
-    const [categories, setCategories] = useState([]);
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        setCategories(categoryData);
+        setProducts(productsData);
       }, []);
 
     return(
@@ -17,8 +17,8 @@ const Categories = () => {
             </div>
 
         <div className="grid grid-cols-4 gap-x-7">
-          {categories &&
-            categories.map((category, index) => (
+          {products &&
+            products.map((product, index) => (
               <div
                 key={index}
                 className="flex w-[300px] h-[433px] bg-formInputBackground rounded-md flex-col"
@@ -33,15 +33,15 @@ const Categories = () => {
                 <div className="flex justify-between mx-5">
                   <div className="card-header mt-7">
                     <h5 className="text-formText font-semibold">
-                      {category.title}
+                      {product.title}
                     </h5>
                     <span className="text-sm font-semibold opacity-60">
-                      {category.author}
+                      {product.author}
                     </span>
                   </div>
                   <div className="card-price flex flex-col justify-end">
                     <span className="font-semibold text-formRegister text-lg">
-                      {category.price}
+                      {product.price}
                     </span>
                   </div>
                 </div>
