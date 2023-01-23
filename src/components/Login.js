@@ -126,6 +126,7 @@ const Login = () => {
               <button
                 type="submit"
                 className="group relative flex w-full justify-center bg-formButton py-2 px-4 text-sm font-medium text-white mb-2"
+                disabled={!email || !password}
               >
                 Login
               </button>
