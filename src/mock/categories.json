@@ -1,0 +1,30 @@
+[
+    {
+      "id": 1,
+      "title": "Dune",
+      "author": "Frank Herbert",
+      "price": "87.75 $",
+      "image": "assets/images/dune.png"
+    },
+    {
+      "id": 2,
+      "title": "1984",
+      "author": "George Orwell",
+      "price": "35.75 $",
+      "image": "assets/images/dune.png"
+    },
+    {
+      "id": 3,
+      "title": "Ikigai",
+      "author": "Hector Garcia",
+      "price": "36.00 $",
+      "image": "assets/images/dune.png"
+    },
+    {
+      "id": 4,
+      "title": "Metafizik",
+      "author": "Aristoteles",
+      "price": "36.00 $",
+      "image": "assets/images/dune.png"
+    }
+  ]
