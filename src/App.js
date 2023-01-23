@@ -2,6 +2,7 @@
 // import Register from "./components/Register"
 import Navbar from "./components/Navbar"
 import Home from "./components/Home"
+import Categories from "./components/Categories"
 
 function App() {
 
@@ -10,7 +11,8 @@ function App() {
       {/* <Login /> */}
       {/* <Register /> */}
       <Navbar />
-      <Home />
+      {/* <Home /> */}
+      <Categories />
     </>
   );
 }
