@@ -1,20 +1,20 @@
 // import Login from "./components/Login"
-// import Register from "./components/Register"
-import Navbar from "./components/Navbar"
+import Register from "./components/Register"
+// import Navbar from "./components/Navbar"
 // import Home from "./components/Home"
 // import Categories from "./components/Categories"
-import ProductDetail from "./components/ProductDetail"
+// import ProductDetail from "./components/ProductDetail"
 
 function App() {
 
   return (
     <>
       {/* <Login /> */}
-      {/* <Register /> */}
-      <Navbar />
+      <Register />
+      {/* <Navbar /> */}
       {/* <Home /> */}
       {/* <Categories /> */}
-      <ProductDetail />
+      {/* <ProductDetail /> */}
     </>
   );
 }

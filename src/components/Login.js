@@ -1,36 +1,43 @@
-import { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup"
+
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  // const Login = async () => {
-  //   await axios
-  //     .post("https://assign-api.piton.com.tr/api/rest/login", {
-  //       email: "adevrim@gmail.com",
-  //       password: "123456"
-  //     })
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err))
-  // };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password : ""
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email().required("Please enter your e-mail"),
+      password: Yup.string()
+      .min(6, 'Must be at least 8 characters long')
+      .max(20, 'Must be a maximum 20 characters or less')
+      .matches(/[0-9]/, 'Requires a number')
+      .matches(/[a-z]/, 'Requires a lowercase letter')
+      .matches(/[A-Z]/, 'Requires an uppercase letter')
+      .matches(/[^\w]/, 'Requires a symbol')
+      .required("Please enter your password")
+    }),
+    onSubmit: ({email, password}) => {
+      handleLogin(email, password);
+    }
+  });
 
-    handleLogin();
-  };
 
-  const handleLogin = () => {
+  const handleLogin = (email, password) => {
     fetch("https://assign-api.piton.com.tr/api/rest/login", {
       method: "POST",
       body: JSON.stringify({
         email,
         password,
-      }),
+      })
     })
       .then((res) => res.json())
       .then((data) => console.log(data))
-      .catch((err) => console.log("err: " + err));
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -72,7 +79,7 @@ const Login = () => {
           <form
             className="space-y-12"
             method="POST"
-            //   onSubmit={handleSubmit}
+              onSubmit={formik.handleSubmit}
           >
             <div className="-space-y-px rounded-md shadow-sm pt-8">
               <div>
@@ -85,9 +92,12 @@ const Login = () => {
                   required
                   className="relative block w-full appearance-none px-3 py-2 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground mb-4"
                   placeholder="john@mail.com"
-                  // onChange={(e) => setEmail(e.target.value)}
-                  // value={email}
+                  onChange={formik.handleChange}
+                  value={formik.values.email}
+                  onBlur={formik.handleBlur}
                 />
+              {formik.touched.email && formik.errors.email ? <p className="text-sm font-semibold opacity-50 text-[color:red]">{formik.errors.email}</p> : null }
+
               </div>
               <div>
                 <label htmlFor="password">Password</label>
@@ -99,9 +109,12 @@ const Login = () => {
                   required
                   className="relative block w-full appearance-none px-3 py-2 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground"
                   placeholder="******"
-                  // onChange={(e) => setPassword(e.target.value)}
-                  // value={password}
+                  onChange={formik.handleChange}
+                  value={formik.values.password}
+                  onBlur={formik.handleBlur}
                 />
+              {formik.touched.password && formik.errors.password ? <p className="text-sm font-semibold opacity-50 text-[color:red]">{formik.errors.password}</p> : null }
+
               </div>
             </div>
 
@@ -125,13 +138,13 @@ const Login = () => {
             <div className="pt-11">
               <button
                 type="submit"
-                className="group relative flex w-full justify-center bg-formButton py-2 px-4 text-sm font-medium text-white mb-2"
-                disabled={!email || !password}
+                className="group relative flex w-full justify-center bg-formButton py-2 px-4 text-sm font-medium text-[color:white] mb-2"
+                // disabled={!email || !password}
               >
                 Login
               </button>
               <button
-                type="submit"
+                type="button"
                 className="group relative flex w-full justify-center border border-formOutline bg-transparent py-2 px-4 text-sm font-medium text-formRegister "
               >
                 Register

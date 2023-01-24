@@ -1,4 +1,47 @@
+import { useFormik } from "formik";
+import * as Yup from "yup"
+
 const Register = () => {
+
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      name: "",
+      password: ""
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email().required("Please enter your e-mail"),
+      name: Yup.string().min(2, 'Must be at least 2 characters long').required("Please enter your name"),
+      password: Yup.string()
+      .min(6, 'Must be at least 8 characters long')
+      .max(20, 'Must be a maximum 20 characters or less')
+      .matches(/[0-9]/, 'Requires a number')
+      .matches(/[a-z]/, 'Requires a lowercase letter')
+      .matches(/[A-Z]/, 'Requires an uppercase letter')
+      .matches(/[^\w]/, 'Requires a symbol')
+      .required("Please enter your password")
+    }),
+    onSubmit: ({email, name, password}) => {
+      handleRegister(email, name, password)
+    }
+  })
+
+
+  const handleRegister = (email, name, password) => {
+    fetch("https://assign-api.piton.com.tr/api/rest/register", {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        name,
+        password
+      })
+    })
+    .then((res) =>  res.json() )
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err))
+  }
+
   return (
     <section className="flex h-screen items-center">
       <div className="bg-indigo-600 hidden lg:block h-screen">
@@ -38,34 +81,38 @@ const Register = () => {
           <form
           className="space-y-12"
           method="POST"
-          //   onSubmit={handleSubmit}
+            onSubmit={formik.handleSubmit}
         >
           <div className="-space-y-px rounded-md shadow-sm pt-8">
             <div>
-            <label htmlFor="email-address">Name</label>
+            <label htmlFor="email">Email</label>
               <input
-                id="name"
-                name="name"
-                type="name"
-                autoComplete="email"
-                required
-                className="relative block w-full appearance-none px-3 py-2 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground mb-4"
-                placeholder="John Doe"
-                // onChange={(e) => setName(e.target.value)}
-                // value={name}
-              />
-              <label htmlFor="email-address">E-mail</label>
-              <input
-                id="email-address"
+                id="email"
                 name="email"
                 type="email"
                 autoComplete="email"
                 required
                 className="relative block w-full appearance-none px-3 py-2 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground mb-4"
                 placeholder="john@mail.com"
-                // onChange={(e) => setEmail(e.target.value)}
-                // value={email}
+                onChange={formik.handleChange}
+                value={formik.values.email}
+                onBlur={formik.handleBlur}
               />
+              {formik.touched.email && formik.errors.email ? <p className="text-sm font-semibold opacity-50 text-[color:red]">{formik.errors.email}</p> : null}
+              <label htmlFor="name">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="name"
+                autoComplete="name"
+                required
+                className="relative block w-full appearance-none px-3 py-2 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground mb-4"
+                placeholder="John Doe"
+                onChange={formik.handleChange}
+                value={formik.values.name}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.name && formik.errors.name ? <p className="text-sm font-semibold opacity-50 text-[color:red]">{formik.errors.name}</p> : null }
             </div>
             <div>
               <label htmlFor="password">Password</label>
@@ -77,9 +124,11 @@ const Register = () => {
                 required
                 className="relative block w-full appearance-none px-3 py-2 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground"
                 placeholder="******"
-                // onChange={(e) => setPassword(e.target.value)}
-                // value={password}
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                onBlur={formik.handleBlur}
               />
+              {formik.touched.password && formik.errors.password ? <p className="text-sm font-semibold opacity-50 text-[color:red]">{formik.errors.password}</p> : null }
             </div>
           </div>
 
@@ -89,11 +138,12 @@ const Register = () => {
             <button
               type="submit"
               className="group relative flex w-full justify-center bg-formButton py-2 px-4 text-sm font-medium text-white mb-2"
+              disabled={!formik.values.email || !formik.values.name || !formik.values.password}
             >
               Register
             </button>
             <button
-              type="submit"
+              type="button"
               className="group relative flex w-full justify-center border border-formOutline bg-transparent py-2 px-4 text-sm font-medium text-formRegister "
             >
               Login
