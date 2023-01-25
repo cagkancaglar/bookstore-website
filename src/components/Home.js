@@ -26,12 +26,10 @@ const Home = () => {
         const c = categories.find((category) => category.id === category_id);
         c.products = data.product;
         setCategories([...categories, c.products])
-        // console.log(c);   
-      })
+      }) 
       .catch((err) => console.log(err));
   };
 
-console.log(categories);
 
   useEffect(() => {
     getCategories();
