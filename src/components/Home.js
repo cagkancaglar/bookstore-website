@@ -1,34 +1,42 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Navbar from "../components/Navbar";
+import { useDispatch, useSelector } from "react-redux";
+import { setCategories, setProducts } from "../store/category"
 
 const Home = () => {
-  const [categories, setCategories] = useState([]);
+  const dispatch = useDispatch();
+  const categories = useSelector(state => state.category.categories)
+  const prod = useSelector(state => state.category.products)
 
   const getCategories = () => {
     fetch("https://assign-api.piton.com.tr/api/rest/categories")
       .then((res) => res.json())
       .then((data) => {
-        setCategories(data.category);
+       dispatch(setCategories(data.category));
         categories.forEach((category) =>
           getAllProductsByCategoryId(category.id)
         );
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err));  
   };
+
 
   const getAllProductsByCategoryId = (category_id) => {
     fetch("https://assign-api.piton.com.tr/api/rest/products/" + category_id)
       .then((res) => res.json())
       .then((data) => {
         const c = categories.find((category) => category.id === category_id);
-        c.products = data.product;
-        setCategories([...categories, c.products])
+        let new_obj = Object.assign({}, c);
+        new_obj.products = data.product  
+        dispatch(setProducts(new_obj))    
+  
       }) 
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); 
   };
+
 
 
   useEffect(() => {
@@ -78,8 +86,8 @@ const Home = () => {
         </Slider>
       </div>
 
-      {categories &&
-        categories.map((item, index) => (
+      {prod &&
+        prod.map((item, index) => (
           <div key={index} className="mt-24 mx-auto container">
             <div className="container flex justify-between mb-2">
               <h2 className="font-semibold">{item.name}</h2>

@@ -29,12 +29,12 @@ const Login = () => {
     validationSchema: Yup.object({
       email: Yup.string().email().required("Please enter your e-mail"),
       password: Yup.string()
-        // .min(6, 'Must be at least 6 characters long')
-        // .max(20, 'Must be a maximum 20 characters or less')
-        // .matches(/[0-9]/, 'Requires a number')
-        // .matches(/[a-z]/, 'Requires a lowercase letter')
-        // .matches(/[A-Z]/, 'Requires an uppercase letter')
-        // .matches(/[^\w]/, 'Requires a symbol')
+        .min(6, 'Must be at least 6 characters long')
+        .max(20, 'Must be a maximum 20 characters or less')
+        .matches(/[0-9]/, 'Requires a number')
+        .matches(/[a-z]/, 'Requires a lowercase letter')
+        .matches(/[A-Z]/, 'Requires an uppercase letter')
+        .matches(/[^\w]/, 'Requires a symbol')
         .required("Please enter your password"),
     }),
     onSubmit: ({ email, password }) => {
