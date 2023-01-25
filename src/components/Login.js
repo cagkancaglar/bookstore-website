@@ -1,31 +1,46 @@
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup"
-
+import * as Yup from "yup";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
 
+  const [rememberMe, setRememberMe] = useState(false);
+  const [userToken, setUserToken] = useState("");
+
+  const tokenHandle = () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    if (token || userToken) {
+      navigate("/home");
+    }
+  };
+
+  useEffect(() => {
+    tokenHandle();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const formik = useFormik({
     initialValues: {
       email: "",
-      password : ""
+      password: "",
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required("Please enter your e-mail"),
       password: Yup.string()
-      .min(6, 'Must be at least 8 characters long')
-      .max(20, 'Must be a maximum 20 characters or less')
-      .matches(/[0-9]/, 'Requires a number')
-      .matches(/[a-z]/, 'Requires a lowercase letter')
-      .matches(/[A-Z]/, 'Requires an uppercase letter')
-      .matches(/[^\w]/, 'Requires a symbol')
-      .required("Please enter your password")
+        // .min(6, 'Must be at least 6 characters long')
+        // .max(20, 'Must be a maximum 20 characters or less')
+        // .matches(/[0-9]/, 'Requires a number')
+        // .matches(/[a-z]/, 'Requires a lowercase letter')
+        // .matches(/[A-Z]/, 'Requires an uppercase letter')
+        // .matches(/[^\w]/, 'Requires a symbol')
+        .required("Please enter your password"),
     }),
-    onSubmit: ({email, password}) => {
+    onSubmit: ({ email, password }) => {
       handleLogin(email, password);
-    }
+    },
   });
-
 
   const handleLogin = (email, password) => {
     fetch("https://assign-api.piton.com.tr/api/rest/login", {
@@ -33,15 +48,27 @@ const Login = () => {
       body: JSON.stringify({
         email,
         password,
-      })
+      }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        setUserToken(data.action_login.token);
+        if (rememberMe) {
+          localStorage.setItem(
+            "token",
+            JSON.stringify(data.action_login.token)
+          );
+          navigate("/home");
+        }
+        if (userToken) {
+          navigate("/home");
+        }
+      })
       .catch((err) => console.log(err));
   };
 
   return (
-    <section className="flex h-screen items-center">
+    <section className="flex h-screen justify-center items-center">
       <div className="bg-indigo-600 hidden lg:block h-screen">
         <img
           src="/assets/images/login-register.png"
@@ -72,49 +99,61 @@ const Login = () => {
             </svg>
           </div>
 
-          <h5 className="font-sm mt-11 text-formText">Welcome back!</h5>
-          <h2 className="text-3xl font-bold tracking-tight text-formText">
+          <h5 className="font-bold opacity-60 font-sm mt-11 mb-2 text-formText">
+            Welcome back!
+          </h5>
+          <h2 className="text-3xl font-semibold tracking-tight text-formText">
             Login to your account
           </h2>
           <form
             className="space-y-12"
             method="POST"
-              onSubmit={formik.handleSubmit}
+            onSubmit={formik.handleSubmit}
           >
-            <div className="-space-y-px rounded-md shadow-sm pt-8">
-              <div>
-                <label htmlFor="email-address">E-mail</label>
+            <div className="-space-y-px rounded-md pt-8">
+              <div className="mb-3">
+                <label htmlFor="email-address" className="font-bold text-lg">
+                  E-mail
+                </label>
                 <input
                   id="email-address"
                   name="email"
                   type="email"
                   autoComplete="email"
                   required
-                  className="relative block w-full appearance-none px-3 py-2 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground mb-4"
+                  className="relative block w-[400px] h-[60px] appearance-none p-4 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground my-3"
                   placeholder="john@mail.com"
                   onChange={formik.handleChange}
                   value={formik.values.email}
                   onBlur={formik.handleBlur}
                 />
-              {formik.touched.email && formik.errors.email ? <p className="text-sm font-semibold opacity-50 text-[color:red]">{formik.errors.email}</p> : null }
-
+                {formik.touched.email && formik.errors.email ? (
+                  <p className="text-sm font-semibold opacity-50 text-[color:red]">
+                    {formik.errors.email}
+                  </p>
+                ) : null}
               </div>
               <div>
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password" className="font-bold text-lg">
+                  Password
+                </label>
                 <input
                   id="password"
                   name="password"
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="relative block w-full appearance-none px-3 py-2 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground"
+                  className="relative block w-[400px] h-[60px] appearance-none p-4 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground my-3"
                   placeholder="******"
                   onChange={formik.handleChange}
                   value={formik.values.password}
                   onBlur={formik.handleBlur}
                 />
-              {formik.touched.password && formik.errors.password ? <p className="text-sm font-semibold opacity-50 text-[color:red]">{formik.errors.password}</p> : null }
-
+                {formik.touched.password && formik.errors.password ? (
+                  <p className="text-sm font-semibold opacity-50 text-[color:red]">
+                    {formik.errors.password}
+                  </p>
+                ) : null}
               </div>
             </div>
 
@@ -124,11 +163,13 @@ const Login = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 rounded border-formOutline"
+                  className="h-[18px] w-[18px] rounded border-formOutline"
+                  value={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                 />
                 <label
                   htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900 text-formOutline"
+                  className="ml-2 block text-[16px] text-gray-900 text-formOutline font-semibold"
                 >
                   Remember me
                 </label>
@@ -138,17 +179,18 @@ const Login = () => {
             <div className="pt-11">
               <button
                 type="submit"
-                className="group relative flex w-full justify-center bg-formButton py-2 px-4 text-sm font-medium text-[color:white] mb-2"
-                // disabled={!email || !password}
+                className="group relative flex w-[400px] h-[60px] justify-center items-center bg-formButton py-[10px] px-[20px] text-[24px] font-bold text-[color:white] mb-2 rounded"
+                disabled={!formik.values.email || !formik.values.password}
               >
                 Login
               </button>
-              <button
+              <Link
                 type="button"
-                className="group relative flex w-full justify-center border border-formOutline bg-transparent py-2 px-4 text-sm font-medium text-formRegister "
+                to={"/register"}
+                className="group relative flex  mt-[10px] w-[400px] h-[60px] justify-center items-center border border-formOutline bg-[color:white] py-2 px-4 text-[24px] font-bold text-formRegister"
               >
                 Register
-              </button>
+              </Link>
             </div>
           </form>
         </div>

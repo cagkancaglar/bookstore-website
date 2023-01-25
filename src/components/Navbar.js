@@ -4,17 +4,16 @@ import { SlBasket } from "react-icons/sl";
 
 const Navbar = ()  => {
   return (
-    <>
       <div className="bg-black shadow-md">
-        <div className="p-10 h-16 md:h-11 flex items-center justify-center md:justify-between gap-x-11 ">
+        <div className="md:p-14 h-[120px] flex items-center justify-center md:justify-between md:gap-x-11 gap-x-2">
           <a href="/">
-            <img src="assets/images/logo.png" alt="piton-logo" />
+            <img src="assets/images/logo.png" alt="piton-logo" className=""/>
           </a>
 
-          <div className="relative md:w-[700px] h-12">
+          <div className="relative w-[800px] h-[50px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
+              className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 md:left-3"
               fill="none"
               viewBox="0 0 24 24"
               stroke="gray"
@@ -36,26 +35,25 @@ const Navbar = ()  => {
           <nav className="flex gap-x-3 text-sm font-semibold">
             <a
               href="/"
-              className="flex justify-center items-center gap-x-2 w-12 h-12 rounded-sm bg-formInputBackground"
+              className="flex justify-center items-center gap-x-2 w-[50px] h-[50px] rounded bg-formInputBackground"
             >
               <CiUser size={20} />
             </a>
             <a
               href="/"
-              className="flex justify-center items-center gap-x-2 w-12 h-12 bg-formInputBackground"
+              className="flex justify-center items-center gap-x-2 w-[50px] h-[50px] rounded bg-formInputBackground"
             >
               <AiOutlineHeart size={20} />
             </a>
             <a
               href="/"
-              className="flex justify-center items-center gap-x-2 w-12 h-12 bg-formInputBackground"
+              className="flex justify-center items-center gap-x-2 w-[50px] h-[50px] rounded bg-formInputBackground"
             >
               <SlBasket size={20} />
             </a>
           </nav>
         </div>
       </div>
-    </>
   );
 }
 

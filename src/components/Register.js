@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup"
+import {Link} from "react-router-dom"
 
 const Register = () => {
 
@@ -43,7 +44,7 @@ const Register = () => {
   }
 
   return (
-    <section className="flex h-screen items-center">
+    <section className="flex h-screen justify-center items-center">
       <div className="bg-indigo-600 hidden lg:block h-screen">
         <img
           src="/assets/images/login-register.png"
@@ -74,8 +75,8 @@ const Register = () => {
             </svg>
           </div>
 
-          <h5 className="font-sm mt-11 text-formText">Welcome back!</h5>
-          <h2 className="text-3xl font-bold tracking-tight text-formText">
+          <h5 className="font-bold opacity-60 font-sm mt-11 mb-2 text-formText">Welcome back!</h5>
+          <h2 className="text-3xl font-semibold tracking-tight text-formText">
             Login to your account
           </h2>
           <form
@@ -83,30 +84,30 @@ const Register = () => {
           method="POST"
             onSubmit={formik.handleSubmit}
         >
-          <div className="-space-y-px rounded-md shadow-sm pt-8">
+          <div className="-space-y-px rounded-md pt-8">
             <div>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email" className="font-bold text-lg">Email</label>
               <input
                 id="email"
                 name="email"
                 type="email"
                 autoComplete="email"
                 required
-                className="relative block w-full appearance-none px-3 py-2 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground mb-4"
+                className="relative block w-[400px] h-[60px] appearance-none p-4 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground my-3"
                 placeholder="john@mail.com"
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 onBlur={formik.handleBlur}
               />
               {formik.touched.email && formik.errors.email ? <p className="text-sm font-semibold opacity-50 text-[color:red]">{formik.errors.email}</p> : null}
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name" className="font-bold text-lg">Name</label>
               <input
                 id="name"
                 name="name"
                 type="name"
                 autoComplete="name"
                 required
-                className="relative block w-full appearance-none px-3 py-2 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground mb-4"
+                className="relative block w-[400px] h-[60px] appearance-none p-4 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground my-3"
                 placeholder="John Doe"
                 onChange={formik.handleChange}
                 value={formik.values.name}
@@ -115,14 +116,14 @@ const Register = () => {
               {formik.touched.name && formik.errors.name ? <p className="text-sm font-semibold opacity-50 text-[color:red]">{formik.errors.name}</p> : null }
             </div>
             <div>
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password" className="font-bold text-lg">Password</label>
               <input
                 id="password"
                 name="password"
                 type="password"
                 autoComplete="current-password"
                 required
-                className="relative block w-full appearance-none px-3 py-2 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground"
+                className="relative block w-[400px] h-[60px] appearance-none p-4 border-none text-gray-900 placeholder-gray-500 bg-formInputBackground my-3"
                 placeholder="******"
                 onChange={formik.handleChange}
                 value={formik.values.password}
@@ -134,20 +135,21 @@ const Register = () => {
 
          
 
-          <div className="pt-11">
+          <div className="mt-11">
             <button
               type="submit"
-              className="group relative flex w-full justify-center bg-formButton py-2 px-4 text-sm font-medium text-white mb-2"
+              className="group relative flex w-[400px] h-[60px] justify-center items-center bg-formButton py-[10px] px-[20px] text-[24px] font-bold text-[color:white] mb-2 rounded"
               disabled={!formik.values.email || !formik.values.name || !formik.values.password}
             >
               Register
             </button>
-            <button
+            <Link 
               type="button"
-              className="group relative flex w-full justify-center border border-formOutline bg-transparent py-2 px-4 text-sm font-medium text-formRegister "
+              to={"/"}
+              className="group relative flex  mt-[10px] w-[400px] h-[60px] justify-center items-center border border-formOutline bg-[color:white] py-2 px-4 text-[24px] font-bold text-formRegister"
             >
               Login
-            </button>
+            </Link >
           </div>
         </form>
         </div>
