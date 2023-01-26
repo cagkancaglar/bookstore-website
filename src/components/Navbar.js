@@ -4,13 +4,13 @@ import { SlBasket } from "react-icons/sl";
 
 const Navbar = ()  => {
   return (
-      <div className="bg-black shadow-md">
+      <div className="bg-black shadow-md px-6">
         <div className="md:p-14 h-[120px] flex items-center justify-center md:justify-between md:gap-x-11 gap-x-2">
           <a href="/">
-            <img src="assets/images/logo.png" alt="piton-logo" className=""/>
+            <img src="/assets/images/logo.png" alt="piton-logo" className="max-w-none"/>
           </a>
 
-          <div className="relative w-[800px] h-[50px]">
+          <div className="relative w-[800px] h-[50px] ml-5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 md:left-3"

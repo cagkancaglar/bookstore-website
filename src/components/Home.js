@@ -1,48 +1,26 @@
-import { useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Navbar from "../components/Navbar";
-import { useDispatch, useSelector } from "react-redux";
-import { setCategories, setProducts } from "../store/category"
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import GetImage from "../helpers/imageUrl"
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const categories = useSelector(state => state.category.categories)
-  const prod = useSelector(state => state.category.products)
+  const data = useSelector(state => state.category.products)
+  const [url, setUrl] = useState("")
 
-  const getCategories = () => {
-    fetch("https://assign-api.piton.com.tr/api/rest/categories")
-      .then((res) => res.json())
-      .then((data) => {
-       dispatch(setCategories(data.category));
-        categories.forEach((category) =>
-          getAllProductsByCategoryId(category.id)
-        );
-      })
-      .catch((err) => console.log(err));  
-  };
+  useEffect(()=>{
+    getUrl()
 
+  },[])
 
-  const getAllProductsByCategoryId = (category_id) => {
-    fetch("https://assign-api.piton.com.tr/api/rest/products/" + category_id)
-      .then((res) => res.json())
-      .then((data) => {
-        const c = categories.find((category) => category.id === category_id);
-        let new_obj = Object.assign({}, c);
-        new_obj.products = data.product  
-        dispatch(setProducts(new_obj))    
-  
-      }) 
-      .catch((err) => console.log(err)); 
-  };
+GetImage("dune.png")
 
-
-
-  useEffect(() => {
-    getCategories();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+  async function getUrl() {
+    setUrl(await GetImage())
+  }
 
   const settings = {
     dots: true,
@@ -86,24 +64,25 @@ const Home = () => {
         </Slider>
       </div>
 
-      {prod &&
-        prod.map((item, index) => (
+      {data &&
+        data.map((item, index) => (
           <div key={index} className="mt-24 mx-auto container">
             <div className="container flex justify-between mb-2">
-              <h2 className="font-semibold">{item.name}</h2>
-              <h5 className="font-semibold text-formButton">View All</h5>
+              <Link className="font-semibold">{item.name}</Link>
+              <Link to={`/category/${item.id}`} className="font-semibold text-formButton">View All</Link>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 xl:gap-7 mx-auto justify-center">
               {item.products &&
                 item.products.map((product, productIndex) => (
-                  <div
+                  <Link
+                   to={`/product-detail/${product.id}`}
                     key={productIndex}
                     className="flex w-[320px] h-[200px] bg-formInputBackground rounded-md"
                   >
                     <div className="flex items-center">
                       <img
-                        src="assets/images/dune.png"
+                        src={url}
                         alt=""
                         className="w-[120px] h-[180px] rounded-sm my-auto"
                       />
@@ -119,11 +98,11 @@ const Home = () => {
                       </div>
                       <div className="card-price">
                         <span className="font-semibold text-formRegister text-lg">
-                          {product.price}
+                          {product.price} $
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
             </div>
           </div>

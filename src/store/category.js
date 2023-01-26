@@ -10,14 +10,17 @@ export const category = createSlice({
   initialState,
   reducers: {
     setCategories: (state, action) => {
-      state.categories = action.payload
+      state.categories = [...action.payload]
     },
     setProducts: (state, action) => {
       state.products = [...state.products, action.payload]
-    }
+    },
+    // resetState: (state) => {
+    //   state = []
+    // }
   },
 })
 
-export const { setCategories, setProducts } = category.actions
+export const { setCategories, setProducts, resetState } = category.actions
 
 export default category.reducer

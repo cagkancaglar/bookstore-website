@@ -1,11 +1,42 @@
 import { AiOutlineHeart } from "react-icons/ai";
 import Navbar from "../components/Navbar";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import GetImage from "../helpers/imageUrl"
+import { useEffect, useState } from "react";
 
 const ProductDetail = () => {
+  
+  const { product_id, category_id  } = useParams(); 
+  const [url, setUrl]=useState("")
+
+  console.log(product_id)
+
+  const prod = useSelector(state => state.category.products)
+
+  console.log(prod)
+
+  const data1 =  prod.find(item => item.id ===  Number(category_id))
+  console.log(data1)
+  const data2 = data1?.products.find(item => item.id  === Number(product_id))
+   console.log(data2)
+
+
+
+  useEffect(()=>{
+    getUrl()
+
+  },[])
+
+  async function getUrl() {
+    setUrl(await GetImage())
+  }
+
   return (
     <>
-    <Navbar />
-      <div className="mt-10 mx-auto container relative">
+      <Navbar />
+
+      <div className="mt-10 mx-auto container relative lg:px-10">
         <div className="container flex justify-between mb-8">
           <h2 className="font-bold text-2xl cursor-pointer">
             {" "}
@@ -13,18 +44,18 @@ const ProductDetail = () => {
           </h2>
         </div>
 
-        <div className="flex gap-x-20 relative">
-          <div className="absolute top-0 right-0 w-11 h-11 rounded-full bg-formInputBackground flex justify-center items-center cursor-pointer">
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-x-20 relative">
+          <div className="absolute top-0 md:top-3 right-20 md:right-0 xxl:right-0 w-11 h-11 rounded-full bg-formInputBackground flex justify-center items-center cursor-pointer">
             <AiOutlineHeart size={22} />
           </div>
-          <div className="w-[420px] h-[570px] bg-formInputBackground rounded-md flex-0 flex-col justify-center">
+          <div className="w-[220px] md:w-[420px] md:h-[570px] bg-formInputBackground rounded-md flex-0 flex-col justify-center">
             <img
-              src="assets/images/dune.png"
+              src={url}
               alt=""
-              className="w-[300px] h-[450px] rounded-sm m-14"
+              className="w-full md:w-[300px] md:h-[450px] rounded-sm p-1 md:p-0 md:m-14"
             />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 p-10 md:p-0">
             <h2 className="font-semibold text-[40px]">Dune</h2>
             <h3 className="font-semibold text-[32px] opacity-60">
               Frank Herbert
@@ -48,12 +79,16 @@ const ProductDetail = () => {
             </p>
           </div>
         </div>
-        <button className="w-[400px] h-[60px] bg-formButton flex justify-between items-center absolute top-[720px] left-[880px] px-3 rounded">
-          <span className="text-[color:white] font-semibold text-xl">
-            87,75
-          </span>
-          <span className="text-[color:white] font-bold text-xl">Buy Now</span>
-        </button>
+        <div className="flex justify-center xl:justify-end">
+          <button className="w-[400px] h-[60px] bg-formButton flex justify-between items-center px-3 rounded">
+            <span className="text-[color:white] font-semibold text-xl">
+              87,75
+            </span>
+            <span className="text-[color:white] font-bold text-xl">
+              Buy Now
+            </span>
+          </button>
+        </div>
       </div>
     </>
   );
