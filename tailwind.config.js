@@ -7,7 +7,8 @@ module.exports = {
       formOutline: "#6251DD",
       formRegister: "#6251DD",
       formInputBackground: "#F4F4FF",
-      formText: "#090937"
+      formText: "#090937",
+      sliderText: "#F0B861"
     },
     extend: {},
   },

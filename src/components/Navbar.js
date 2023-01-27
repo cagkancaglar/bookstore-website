@@ -1,6 +1,8 @@
+// react-icons
 import { CiUser } from "react-icons/ci";
 import { AiOutlineHeart } from "react-icons/ai";
 import { SlBasket } from "react-icons/sl";
+
 
 const Navbar = ()  => {
   return (

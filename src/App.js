@@ -1,17 +1,19 @@
+// react
+import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+// redux
+import { useDispatch } from "react-redux";
+import { setCategories, setProducts } from "./store/category";
+// components
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import Category from "././components/Category";
 import ProductDetail from "./components/ProductDetail";
 import NotFound from "./components/NotFound";
-import { setCategories, setProducts } from "./store/category";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 
 function App() {
   const dispatch = useDispatch();
-  // const categories = useSelector((state) => state.category.categories);
 
   const getCategories = async () => {
     let res = await fetch(

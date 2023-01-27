@@ -1,10 +1,10 @@
 async function GetImage(name) {
-  // console.log("props: ", name);
+
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
   var raw = JSON.stringify({
-    fileName: "ikigai.png",
+    fileName: name,
   });
 
   var requestOptions = {
@@ -21,8 +21,6 @@ async function GetImage(name) {
   let result = await urlData.json();
 
   return result?.action_product_image?.url;
-
-
 }
 
 export default GetImage;
