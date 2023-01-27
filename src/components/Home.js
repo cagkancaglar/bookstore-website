@@ -1,5 +1,3 @@
-// react
-import { useEffect, useState } from "react";
 // router
 import { Link } from "react-router-dom";
 // redux
@@ -10,8 +8,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // components
 import Navbar from "../components/Navbar";
-// services
-import GetImage from "../helpers/imageUrl";
+import Image from "./ui/Image"
 // helmet
 import { Helmet } from "react-helmet";
 
@@ -19,15 +16,6 @@ import { Helmet } from "react-helmet";
 const Home = () => {
 
   const data = useSelector((state) => state.category.products);
-  const [url, setUrl] = useState("");
-
-  useEffect(() => {
-    getUrl();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  async function getUrl() {
-    setUrl([await GetImage()]);
-  }
 
   const settings = {
     dots: true,
@@ -38,8 +26,6 @@ const Home = () => {
     autoplay: true,
     autoplaySpeed: 3500,
     cssEase: "linear",
-    // outerWidth: 1320,
-    // innerWidth: 1320
   };
 
   return (
@@ -106,11 +92,7 @@ const Home = () => {
                     className="flex w-[320px] h-[200px] bg-formInputBackground rounded-md"
                   >
                     <div className="flex items-center">
-                      <img
-                        src={url}
-                        alt=""
-                        className="w-[120px] h-[180px] rounded-sm my-auto"
-                      />
+                    <Image source={product.cover} customClass="w-[120px] h-[180px] rounded-sm my-auto"/>
                     </div>
                     <div className="flex flex-col justify-between h-[180px] ml-5">
                       <div className="card-header mt-5">

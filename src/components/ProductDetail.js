@@ -1,5 +1,3 @@
-// react
-import { useEffect, useState } from "react";
 // router
 import { useParams, Link } from "react-router-dom";
 // redux
@@ -8,16 +6,12 @@ import { useSelector } from "react-redux";
 import { AiOutlineHeart } from "react-icons/ai";
 // components
 import Navbar from "../components/Navbar";
-// services
-import GetImage from "../helpers/imageUrl";
+import Image from "./ui/Image";
 // helmet
 import { Helmet } from "react-helmet";
 
-
 const ProductDetail = () => {
-
   const { product_id, category_id } = useParams();
-  const [url, setUrl] = useState("");
   const prod = useSelector((state) => state.category.products);
   const category = prod.find((item) => item.id === Number(category_id));
   const product = category?.products.find(
@@ -25,21 +19,13 @@ const ProductDetail = () => {
   );
 
 
-  useEffect(() => {
-    getUrl();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  async function getUrl() {
-    setUrl(await GetImage(product.cover));
-  }
-
   return (
     <>
       <Helmet>
         <title>Product Detail - PITON</title>
       </Helmet>
       <Navbar />
-      <div className="mt-10 mx-auto container relative lg:px-10">
+      <div className="mt-10 mx-auto container relative lg:px-10" key={product.id}> 
         <div className="container flex justify-between mb-8">
           <Link
             to={`/category/${category.id}`}
@@ -54,11 +40,7 @@ const ProductDetail = () => {
             <AiOutlineHeart size={22} />
           </div>
           <div className="w-[220px] md:w-[420px] md:h-[570px] bg-formInputBackground rounded-md flex-0 flex-col justify-center">
-            <img
-              src={url}
-              alt=""
-              className="w-full md:w-[300px] md:h-[450px] rounded-sm p-1 md:p-0 md:m-14"
-            />
+         <Image source={product.cover} customClass="w-full md:w-[300px] md:h-[450px] rounded-sm p-1 md:p-0 md:m-14"/>
           </div>
           <div className="flex-1 p-10 md:p-0">
             <h2 className="font-semibold text-[40px]">{product.name}</h2>

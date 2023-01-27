@@ -1,5 +1,5 @@
 // router
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // formik
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -8,6 +8,8 @@ import { Helmet } from "react-helmet";
 
 
 const Register = () => {
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -34,8 +36,8 @@ const Register = () => {
     },
   });
 
-  const handleRegister = (email, name, password) => {
-    fetch("https://assign-api.piton.com.tr/api/rest/register", {
+  const handleRegister = async (email, name, password) => {
+    let res = await fetch("https://assign-api.piton.com.tr/api/rest/register", {
       method: "POST",
       body: JSON.stringify({
         email,
@@ -43,9 +45,10 @@ const Register = () => {
         password,
       }),
     })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
+      let data = await res.json()
+      if(data) {
+        navigate("/home")
+      }
   };
 
   return (
