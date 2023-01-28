@@ -53,7 +53,7 @@ const ProductDetail = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center xl:justify-end mt-22">
+        <div className="flex justify-center xl:justify-end mt-24">
           <button className="w-[400px] h-[60px] bg-formButton flex justify-between items-center px-3 rounded">
             <span className="text-[color:white] font-semibold text-xl">
               {product.price} $
